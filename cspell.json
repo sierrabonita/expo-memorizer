@@ -4,6 +4,6 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [],
-  "ignoreWords": ["expomemorizer", "Pressable", "Nativewind", "worklets"],
+  "ignoreWords": ["appbar", "expomemorizer", "pressable", "nativewind", "worklets"],
   "import": []
 }

@@ -1,31 +1,41 @@
-import { StyleSheet } from "react-native";
+import { View } from "react-native";
+import { Appbar, Button, Text } from "react-native-paper";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
-
-export default function TabOneScreen() {
+export default function TopScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="TOP" />
+      </Appbar.Header>
+
+      <View style={{ flex: 1, padding: 16, gap: 10 }}>
+        <Text variant="titleLarge" style={{ textAlign: "center" }}>
+          Title
+        </Text>
+        <View
+          style={{
+            alignItems: "center",
+            flex: 1,
+          }}
+        >
+          <Button
+            mode="contained"
+            onPress={() => console.log("Pressed")}
+            style={{ width: 180, height: 180, borderRadius: 90 }}
+            contentStyle={{
+              width: 180,
+              height: 180,
+            }}
+            labelStyle={{
+              fontSize: 30,
+              lineHeight: 34,
+              includeFontPadding: false,
+            }}
+          >
+            START
+          </Button>
+        </View>
+      </View>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
