@@ -56,7 +56,7 @@ export default function QuestionListScreen() {
               key={q.id}
               title={q.title}
               description={q.body || "（内容なし）"}
-              onPress={() => console.log("Pressed")}
+              onPress={() => router.push(`/(tabs)/list/${q.id}`)}
               left={(props) => <List.Icon {...props} icon="book-outline" />}
               right={(props) => <List.Icon {...props} icon="chevron-right" />}
             />
