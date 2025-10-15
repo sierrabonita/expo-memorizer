@@ -1,7 +1,9 @@
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { RefreshControl, ScrollView } from "react-native";
 import { ActivityIndicator, Appbar, FAB, List, Text } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { getAllQuestions } from "../../../lib/db/questionsRepository";
 
 type Question = {
@@ -12,6 +14,8 @@ type Question = {
 };
 
 export default function QuestionListScreen() {
+  const tabH = useBottomTabBarHeight();
+
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -40,8 +44,8 @@ export default function QuestionListScreen() {
   }
 
   return (
-    <>
-      <Appbar.Header>
+    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
+      <Appbar.Header statusBarHeight={0}>
         <Appbar.Content title="LIST" />
       </Appbar.Header>
 
@@ -73,6 +77,6 @@ export default function QuestionListScreen() {
         }}
         onPress={() => router.push("/(tabs)/list/new")}
       />
-    </>
+    </SafeAreaView>
   );
 }
