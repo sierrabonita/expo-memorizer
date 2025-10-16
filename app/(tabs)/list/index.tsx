@@ -1,4 +1,3 @@
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { RefreshControl, ScrollView } from "react-native";
@@ -14,8 +13,6 @@ type Question = {
 };
 
 export default function QuestionListScreen() {
-  const tabH = useBottomTabBarHeight();
-
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
