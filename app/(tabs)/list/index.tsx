@@ -43,7 +43,7 @@ export default function QuestionListScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
       <Appbar.Header statusBarHeight={0}>
-        <Appbar.Content title="LIST" />
+        <Appbar.Content title="LIST" style={{ alignItems: "center" }} />
       </Appbar.Header>
 
       <ScrollView
