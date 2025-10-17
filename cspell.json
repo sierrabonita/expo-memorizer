@@ -4,6 +4,13 @@
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [],
-  "ignoreWords": ["appbar", "expomemorizer", "pressable", "nativewind", "worklets"],
+  "ignoreWords": [
+    "appbar",
+    "autoincrement",
+    "expomemorizer",
+    "pressable",
+    "nativewind",
+    "worklets"
+  ],
   "import": []
 }

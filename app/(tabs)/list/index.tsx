@@ -1,44 +1,26 @@
-import { router } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
-import { RefreshControl, ScrollView } from "react-native";
-import { ActivityIndicator, Appbar, FAB, List, Text } from "react-native-paper";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { ScrollView } from "react-native";
+import { Appbar, FAB, List, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getAllQuestions } from "../../../lib/db/questionsRepository";
-
-type Question = {
-  id: number;
-  title: string;
-  body: string | null;
-  created_at: number;
-};
+import { type Question, useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
 
 export default function QuestionListScreen() {
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const { getAllQuestions } = useQuestionsRepository();
+  const [items, setItems] = useState<Question[]>([]);
 
-  const fetchQuestions = useCallback(async () => {
-    try {
-      const data = await getAllQuestions();
+  const refetchOnFocus = useCallback(() => {
+    (async () => {
+      try {
+        const data = await getAllQuestions();
+        setItems(data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [getAllQuestions]);
 
-      setQuestions(data);
-    } catch (e) {
-      console.error("Error loading questions:", e);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchQuestions();
-  }, [fetchQuestions]);
-
-  if (loading) {
-    return (
-      <ActivityIndicator style={{ flex: 1, justifyContent: "center", alignItems: "center" }} />
-    );
-  }
+  useFocusEffect(refetchOnFocus);
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
@@ -46,17 +28,15 @@ export default function QuestionListScreen() {
         <Appbar.Content title="LIST" style={{ alignItems: "center" }} />
       </Appbar.Header>
 
-      <ScrollView
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={fetchQuestions} />}
-      >
-        {questions.length === 0 ? (
+      <ScrollView>
+        {items.length === 0 ? (
           <Text style={{ padding: 16 }}>まだ暗記項目がありません</Text>
         ) : (
-          questions.map((q) => (
+          items.map((q) => (
             <List.Item
               key={q.id}
-              title={q.title}
-              description={q.body || "（内容なし）"}
+              title={q.prompt}
+              description={q.answer || "（内容なし）"}
               onPress={() => router.push(`/(tabs)/list/${q.id}`)}
               left={(props) => <List.Icon {...props} icon="book-outline" />}
               right={(props) => <List.Icon {...props} icon="chevron-right" />}

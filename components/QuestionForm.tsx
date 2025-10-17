@@ -2,18 +2,16 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { ActivityIndicator, Button, Snackbar, Text, TextInput } from "react-native-paper";
-import {
-  deleteQuestion,
-  getQuestionById,
-  insertQuestion,
-  updateQuestion,
-} from "../lib/db/questionsRepository";
+import { useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
 
 type Props = { mode: "create" } | { mode: "edit"; id: number };
 
 export default function QuestionForm(props: Props) {
   const isEdit = props.mode === "edit";
   const id = isEdit ? props.id : undefined;
+
+  const { getQuestionById, createQuestion, updateQuestion, removeQuestion } =
+    useQuestionsRepository();
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -22,21 +20,25 @@ export default function QuestionForm(props: Props) {
 
   useEffect(() => {
     if (!isEdit || !id) return;
-    const data = getQuestionById(id);
-    if (data) {
-      setTitle(data.title);
-      setBody(data.body ?? "");
-    }
-    setLoading(false);
-  }, [isEdit, id]);
+    (async () => {
+      const data = await getQuestionById(id);
 
-  const handleSave = () => {
+      if (data) {
+        setTitle(data.prompt);
+        setBody(data.answer ?? "");
+      }
+
+      setLoading(false);
+    })();
+  }, [isEdit, id, getQuestionById]);
+
+  const handleSave = async () => {
     if (!title.trim()) return;
     if (isEdit && id) {
-      updateQuestion(id, title.trim(), body.trim());
+      await updateQuestion(id, { prompt: title.trim(), answer: body.trim() });
       setSnack("更新しました");
     } else {
-      insertQuestion(title.trim(), body.trim());
+      await createQuestion({ prompt: title.trim(), answer: body.trim() });
       setSnack("作成しました");
       setTitle("");
       setBody("");
@@ -51,8 +53,8 @@ export default function QuestionForm(props: Props) {
       {
         text: "削除する",
         style: "destructive",
-        onPress: () => {
-          deleteQuestion(id);
+        onPress: async () => {
+          await removeQuestion(id);
           setSnack("削除しました");
           setTimeout(() => router.replace("/(tabs)/list"), 300);
         },
