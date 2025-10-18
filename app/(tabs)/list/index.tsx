@@ -1,13 +1,15 @@
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { ScrollView } from "react-native";
-import { FAB, List, Text } from "react-native-paper";
+import { FAB, List, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { type Question, useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
 import { AppTopBar } from "@/lib/ui/AppTopBar";
 
 export default function QuestionListScreen() {
   const { getAllQuestions } = useQuestionsRepository();
+  const theme = useTheme();
+
   const [items, setItems] = useState<Question[]>([]);
 
   const refetchOnFocus = useCallback(() => {
@@ -24,7 +26,10 @@ export default function QuestionListScreen() {
   useFocusEffect(refetchOnFocus);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: theme.colors.background }}
+      edges={["top", "left", "right"]}
+    >
       <AppTopBar title="LIST" />
 
       <ScrollView>

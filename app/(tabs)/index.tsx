@@ -1,18 +1,22 @@
 import { View } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { tokens } from "@/lib/theme/tokens";
 
 export default function TopScreen() {
   const theme = useTheme();
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: theme.colors.background }}
+      edges={["top", "left", "right"]}
+    >
       <View
         style={{
           alignItems: "center",
           justifyContent: "center",
           flex: 1,
-          gap: 10,
+          gap: tokens.spacing.sm,
           backgroundColor: theme.colors.primaryContainer,
         }}
       >
