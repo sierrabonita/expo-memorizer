@@ -23,7 +23,7 @@ export default function RootLayout() {
             contentStyle: { backgroundColor: theme.colors.background },
           }}
         />
-        <StatusBar style={isDark ? "dark" : "light"} />
+        <StatusBar style={isDark ? "light" : "dark"} />
       </DBProvider>
     </PaperProvider>
   );
