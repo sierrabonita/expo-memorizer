@@ -1,9 +1,10 @@
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { ScrollView } from "react-native";
-import { Appbar, FAB, List, Text } from "react-native-paper";
+import { FAB, List, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { type Question, useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
+import { AppTopBar } from "@/lib/ui/AppTopBar";
 
 export default function QuestionListScreen() {
   const { getAllQuestions } = useQuestionsRepository();
@@ -24,9 +25,7 @@ export default function QuestionListScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
-      <Appbar.Header statusBarHeight={0}>
-        <Appbar.Content title="LIST" style={{ alignItems: "center" }} />
-      </Appbar.Header>
+      <AppTopBar title="LIST" />
 
       <ScrollView>
         {items.length === 0 ? (
