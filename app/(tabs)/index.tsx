@@ -1,8 +1,10 @@
 import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TopScreen() {
+  const theme = useTheme();
+
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top", "left", "right"]}>
       <View
@@ -11,7 +13,7 @@ export default function TopScreen() {
           justifyContent: "center",
           flex: 1,
           gap: 10,
-          backgroundColor: "#ff0",
+          backgroundColor: theme.colors.primaryContainer,
         }}
       >
         <Text variant="titleLarge" style={{ textAlign: "center" }}>
@@ -19,6 +21,7 @@ export default function TopScreen() {
         </Text>
         <Button
           mode="contained"
+          buttonColor={theme.colors.primary}
           onPress={() => console.log("Pressed")}
           style={{ width: 180, height: 180, borderRadius: 90 }}
           contentStyle={{

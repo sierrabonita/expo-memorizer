@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
-import { ActivityIndicator, Button, Snackbar, Text, TextInput } from "react-native-paper";
+import { ActivityIndicator, Button, Snackbar, Text, TextInput, useTheme } from "react-native-paper";
 import { useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
 
 type Props = { mode: "create" } | { mode: "edit"; id: number };
@@ -10,6 +10,7 @@ export default function QuestionForm(props: Props) {
   const isEdit = props.mode === "edit";
   const id = isEdit ? props.id : undefined;
 
+  const theme = useTheme();
   const { getQuestionById, createQuestion, updateQuestion, removeQuestion } =
     useQuestionsRepository();
 
@@ -91,12 +92,24 @@ export default function QuestionForm(props: Props) {
       />
 
       <View style={{ flexDirection: "row", gap: 8 }}>
-        <Button mode="contained" onPress={handleSave} disabled={!title.trim()} style={{ flex: 1 }}>
+        <Button
+          mode="contained"
+          buttonColor={theme.colors.primary}
+          onPress={handleSave}
+          disabled={!title.trim()}
+          style={{ flex: 1 }}
+        >
           {isEdit ? "更新" : "作成"}
         </Button>
 
         {isEdit && (
-          <Button mode="outlined" textColor="#ef4444" onPress={handleDelete} style={{ flex: 1 }}>
+          <Button
+            mode="contained"
+            buttonColor={theme.colors.errorContainer}
+            textColor={theme.colors.error}
+            onPress={handleDelete}
+            style={{ flex: 1 }}
+          >
             削除
           </Button>
         )}
