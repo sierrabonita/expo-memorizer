@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { ActivityIndicator, Button, Snackbar, Text, TextInput, useTheme } from "react-native-paper";
 import { useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
+import { tokens } from "@/lib/theme/tokens";
 
 type Props = { mode: "create" } | { mode: "edit"; id: number };
 
@@ -65,15 +66,22 @@ export default function QuestionForm(props: Props) {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 16 }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          padding: tokens.spacing.md,
+        }}
+      >
         <ActivityIndicator />
-        <Text style={{ marginTop: 12 }}>読み込み中…</Text>
+        <Text style={{ marginTop: tokens.spacing.sm }}>読み込み中…</Text>
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, padding: 16, gap: 12 }}>
+    <View style={{ flex: 1, padding: tokens.spacing.md, gap: tokens.spacing.sm }}>
       <TextInput
         label="タイトル"
         value={title}
@@ -91,7 +99,7 @@ export default function QuestionForm(props: Props) {
         style={{ minHeight: 120 }}
       />
 
-      <View style={{ flexDirection: "row", gap: 8 }}>
+      <View style={{ flexDirection: "row", gap: tokens.spacing.xs }}>
         <Button
           mode="contained"
           buttonColor={theme.colors.primary}

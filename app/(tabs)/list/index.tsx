@@ -4,6 +4,7 @@ import { ScrollView } from "react-native";
 import { FAB, List, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { type Question, useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
+import { tokens } from "@/lib/theme/tokens";
 import { AppTopBar } from "@/lib/ui/AppTopBar";
 
 export default function QuestionListScreen() {
@@ -34,7 +35,7 @@ export default function QuestionListScreen() {
 
       <ScrollView>
         {items.length === 0 ? (
-          <Text style={{ padding: 16 }}>まだ暗記項目がありません</Text>
+          <Text style={{ padding: tokens.spacing.md }}>まだ暗記項目がありません</Text>
         ) : (
           items.map((q) => (
             <List.Item
@@ -53,8 +54,8 @@ export default function QuestionListScreen() {
         icon="plus"
         style={{
           position: "absolute",
-          bottom: 24,
-          right: 24,
+          bottom: tokens.spacing.xl,
+          right: tokens.spacing.xl,
         }}
         onPress={() => router.push("/(tabs)/list/new")}
       />
