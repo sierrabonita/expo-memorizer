@@ -1,3 +1,4 @@
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { ScrollView } from "react-native";
@@ -10,6 +11,7 @@ import { AppTopBar } from "@/lib/ui/AppTopBar";
 export default function QuestionListScreen() {
   const { getAllQuestions } = useQuestionsRepository();
   const theme = useTheme();
+  const tabBarHeight = useBottomTabBarHeight();
 
   const [items, setItems] = useState<Question[]>([]);
 
@@ -33,7 +35,12 @@ export default function QuestionListScreen() {
     >
       <AppTopBar title="LIST" />
 
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          padding: tokens.spacing.sm,
+          paddingBottom: tokens.spacing.sm + tabBarHeight,
+        }}
+      >
         {items.length === 0 ? (
           <Text style={{ padding: tokens.spacing.md }}>まだ暗記項目がありません</Text>
         ) : (
