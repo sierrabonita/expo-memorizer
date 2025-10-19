@@ -1,6 +1,6 @@
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Button, Snackbar, Text, TextInput, useTheme } from "react-native-paper";
 import { useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
 import { tokens } from "@/lib/theme/tokens";
@@ -14,6 +14,24 @@ export default function QuestionForm(props: Props) {
   const theme = useTheme();
   const { getQuestionById, createQuestion, updateQuestion, removeQuestion } =
     useQuestionsRepository();
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        loadingContainer: {
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          padding: tokens.spacing.md,
+        },
+        loadingText: { marginTop: tokens.spacing.sm },
+        formContainer: { flex: 1, padding: tokens.spacing.md, gap: tokens.spacing.sm },
+        formInputBody: { minHeight: 120 },
+        formButtonContainer: { flexDirection: "row", gap: tokens.spacing.xs },
+        formButton: { flex: 1 },
+      }),
+    [],
+  );
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -66,22 +84,15 @@ export default function QuestionForm(props: Props) {
 
   if (loading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          padding: tokens.spacing.md,
-        }}
-      >
+      <View style={styles.loadingContainer}>
         <ActivityIndicator />
-        <Text style={{ marginTop: tokens.spacing.sm }}>読み込み中…</Text>
+        <Text style={styles.loadingText}>読み込み中…</Text>
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, padding: tokens.spacing.md, gap: tokens.spacing.sm }}>
+    <View style={styles.formContainer}>
       <TextInput
         label="タイトル"
         value={title}
@@ -96,16 +107,16 @@ export default function QuestionForm(props: Props) {
         mode="outlined"
         multiline
         numberOfLines={5}
-        style={{ minHeight: 120 }}
+        style={styles.formInputBody}
       />
 
-      <View style={{ flexDirection: "row", gap: tokens.spacing.xs }}>
+      <View style={styles.formButtonContainer}>
         <Button
           mode="contained"
           buttonColor={theme.colors.primary}
           onPress={handleSave}
           disabled={!title.trim()}
-          style={{ flex: 1 }}
+          style={styles.formButton}
         >
           {isEdit ? "更新" : "作成"}
         </Button>
@@ -116,7 +127,7 @@ export default function QuestionForm(props: Props) {
             buttonColor={theme.colors.errorContainer}
             textColor={theme.colors.error}
             onPress={handleDelete}
-            style={{ flex: 1 }}
+            style={styles.formButton}
           >
             削除
           </Button>

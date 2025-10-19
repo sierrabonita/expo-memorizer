@@ -1,7 +1,7 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router, useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
-import { ScrollView } from "react-native";
+import { useCallback, useMemo, useState } from "react";
+import { ScrollView, StyleSheet } from "react-native";
 import { FAB, List, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { type Question, useQuestionsRepository } from "@/lib/db/repositories/questionsRepository";
@@ -12,6 +12,27 @@ export default function QuestionListScreen() {
   const { getAllQuestions } = useQuestionsRepository();
   const theme = useTheme();
   const tabBarHeight = useBottomTabBarHeight();
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        safeAreaView: {
+          flex: 1,
+          backgroundColor: theme.colors.background,
+        },
+        scrollView: {
+          padding: tokens.spacing.sm,
+          paddingBottom: tokens.spacing.sm + tabBarHeight,
+        },
+        scrollViewText: { padding: tokens.spacing.md },
+        fab: {
+          position: "absolute",
+          bottom: tokens.spacing.xl,
+          right: tokens.spacing.xl,
+        },
+      }),
+    [theme, tabBarHeight],
+  );
 
   const [items, setItems] = useState<Question[]>([]);
 
@@ -29,20 +50,12 @@ export default function QuestionListScreen() {
   useFocusEffect(refetchOnFocus);
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: theme.colors.background }}
-      edges={["top", "left", "right"]}
-    >
+    <SafeAreaView style={styles.safeAreaView} edges={["top", "left", "right"]}>
       <AppTopBar title="LIST" />
 
-      <ScrollView
-        contentContainerStyle={{
-          padding: tokens.spacing.sm,
-          paddingBottom: tokens.spacing.sm + tabBarHeight,
-        }}
-      >
+      <ScrollView contentContainerStyle={styles.scrollView}>
         {items.length === 0 ? (
-          <Text style={{ padding: tokens.spacing.md }}>まだ暗記項目がありません</Text>
+          <Text style={styles.scrollViewText}>まだ暗記項目がありません</Text>
         ) : (
           items.map((q) => (
             <List.Item
@@ -57,15 +70,7 @@ export default function QuestionListScreen() {
         )}
       </ScrollView>
 
-      <FAB
-        icon="plus"
-        style={{
-          position: "absolute",
-          bottom: tokens.spacing.xl,
-          right: tokens.spacing.xl,
-        }}
-        onPress={() => router.push("/(tabs)/list/new")}
-      />
+      <FAB icon="plus" style={styles.fab} onPress={() => router.push("/(tabs)/list/new")} />
     </SafeAreaView>
   );
 }
