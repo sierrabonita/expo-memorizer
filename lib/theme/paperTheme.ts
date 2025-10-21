@@ -3,8 +3,8 @@ import {
   MD3LightTheme as DefaultLight,
   type MD3Theme,
 } from "react-native-paper";
-import { fonts } from "./fonts";
-import { tokens } from "./tokens";
+import { fonts } from "@/lib/theme/fonts";
+import { tokens } from "@/lib/theme/tokens";
 
 const common = {
   isV3: true,

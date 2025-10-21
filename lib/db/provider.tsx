@@ -1,7 +1,7 @@
 import * as SplashScreen from "expo-splash-screen";
 import { SQLiteProvider } from "expo-sqlite";
+import { migrateAsync } from "@/lib/db/schema/migrations";
 import { seedQuestionsIfEmptyAsync } from "@/lib/db/seeds";
-import { migrateAsync } from "./schema/migrations";
 
 export function DBProvider({ children }: { children: React.ReactNode }) {
   return (
