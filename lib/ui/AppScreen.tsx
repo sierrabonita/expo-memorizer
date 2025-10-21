@@ -7,14 +7,8 @@ import { tokens } from "@/lib/theme/tokens";
 
 type Props = {
   children: React.ReactNode;
-  /**
-   * true: スクロール画面（content は contentContainerStyle で余白）
-   * false: 非スクロール（children はそのまま）
-   */
   scroll?: boolean;
-  /** デフォルトは上・左・右。下はタブに任せる */
   edges?: ("top" | "bottom" | "left" | "right")[];
-  /** コンテンツの追加パディング（デフォは md） */
   padding?: number;
 } & Pick<ViewProps, "style">;
 
