@@ -29,3 +29,5 @@ It focuses on simplicity, offline capability (SQLite), and quick daily review fl
 | **Linting** | Biome |
 | **Formatting** | Biome |
 | **Spell Checking** | cspell |
+| **Testing** | Jest (`jest-expo`), @testing-library/react-native |
+| **Test Utilities** | Custom setup under `/tests` |

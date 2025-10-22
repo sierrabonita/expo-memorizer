@@ -9,15 +9,19 @@
     "web": "expo start --web",
     "lint": "biome lint .",
     "format": "biome format --write .",
-    "fix": "biome check --write --unsafe ."
+    "fix": "biome check --write --unsafe .",
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-expo",
     "setupFilesAfterEnv": [
-      "@testing-library/react-native/extend-expect"
+      "<rootDir>/tests/jest.setup.ts"
     ],
+    "moduleNameMapper": {
+      "^expo-sqlite$": "<rootDir>/tests/expo-sqlite.ts"
+    },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native|expo(nent)?|@expo(nent)?|@unimodules|unimodules|sentry-expo|native-base)/)"
+      "node_modules/(?!(jest-)?react-native|@react-native|@react-native-community|@react-navigation|react-native-.*|expo(nent)?|@expo(nent)?|expo-modules-core|expo-router|@unimodules|unimodules|sentry-expo)/"
     ]
   },
   "dependencies": {
@@ -37,6 +41,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.4",
+    "react-native-gesture-handler": "~2.28.0",
     "react-native-paper": "^5.14.5",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
