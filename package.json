@@ -6,6 +6,8 @@
     "start": "expo start",
     "android": "emulator -avd Pixel_9 & adb wait-for-device && expo start --android",
     "ios": "expo start --ios",
+    "ios:dev": "expo run:ios --device",
+    "ios:rel": "expo run:ios --configuration Release --device",
     "web": "expo start --web",
     "lint": "biome lint .",
     "format": "biome format --write .",
