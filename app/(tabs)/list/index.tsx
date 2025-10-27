@@ -2,7 +2,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
 import { useMemo } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { FAB, List } from "react-native-paper";
+import { FAB, List, Portal } from "react-native-paper";
 import { useRefetchOnFocus } from "@/features/common/useRefetchOnFocus";
 import { useListQuestions } from "@/features/questions/useCases/useListQuestions";
 import { tokens } from "@/lib/theme/tokens";
@@ -47,7 +47,9 @@ export default function QuestionListScreen() {
           ))
         )}
       </View>
-      <FAB icon="plus" style={styles.fab} onPress={() => router.push("/(tabs)/list/new")} />
+      <Portal>
+        <FAB icon="plus" style={styles.fab} onPress={() => router.push("/(tabs)/list/new")} />
+      </Portal>
     </AppScreen>
   );
 }
