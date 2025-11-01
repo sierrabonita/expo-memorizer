@@ -4,6 +4,7 @@ import QuestionForm from "@/components/QuestionForm";
 import { useCreateQuestion } from "@/features/questions/useCases/useCreateQuestion";
 import { AppScreen } from "@/lib/ui/AppScreen";
 import { AppTopBar } from "@/lib/ui/AppTopBar";
+import { t } from "@/locales";
 
 export default function CreateQuestionScreen() {
   const [title, setTitle] = useState("");
@@ -24,7 +25,7 @@ export default function CreateQuestionScreen() {
 
   return (
     <AppScreen>
-      <AppTopBar title="Create" canBack />
+      <AppTopBar title={t("nav.create")} canBack />
       <QuestionForm
         mode="create"
         title={title}

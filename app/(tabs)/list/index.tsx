@@ -8,6 +8,7 @@ import { useListQuestions } from "@/features/questions/useCases/useListQuestions
 import { tokens } from "@/lib/theme/tokens";
 import { AppScreen } from "@/lib/ui/AppScreen";
 import { AppTopBar } from "@/lib/ui/AppTopBar";
+import { t } from "@/locales";
 
 export default function QuestionListScreen() {
   const tabBarHeight = useBottomTabBarHeight();
@@ -30,16 +31,16 @@ export default function QuestionListScreen() {
 
   return (
     <AppScreen scroll>
-      <AppTopBar title="LIST" />
+      <AppTopBar title={t("nav.list")} />
       <View style={styles.container}>
         {items.length === 0 ? (
-          <Text style={styles.text}>まだ暗記項目がありません</Text>
+          <Text style={styles.text}>{t("screen.list.empty")}</Text>
         ) : (
           items.map((q) => (
             <List.Item
               key={q.id}
               title={q.prompt}
-              description={q.answer || "（内容なし）"}
+              description={q.answer || t("screen.list.item.noContent")}
               onPress={() => router.push(`/(tabs)/list/${q.id}`)}
               left={(props) => <List.Icon {...props} icon="book-outline" />}
               right={(props) => <List.Icon {...props} icon="chevron-right" />}

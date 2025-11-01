@@ -8,6 +8,7 @@ import { useLoadQuestion } from "@/features/questions/useCases/useLoadQuestion";
 import { useUpdateQuestion } from "@/features/questions/useCases/useUpdateQuestion";
 import { AppScreen } from "@/lib/ui/AppScreen";
 import { AppTopBar } from "@/lib/ui/AppTopBar";
+import { t } from "@/locales";
 
 export default function EditQuestionScreen() {
   const id = useRouteQuestionId();
@@ -32,10 +33,10 @@ export default function EditQuestionScreen() {
 
   const onDelete = () => {
     if (!id) return;
-    Alert.alert("削除確認", "この項目を削除しますか？", [
-      { text: "キャンセル" },
+    Alert.alert(t("modal.confirmDeleteTitle"), t("modal.confirmDeleteMessage"), [
+      { text: t("button.cancel") },
       {
-        text: "削除する",
+        text: t("button.delete"),
         style: "destructive",
         onPress: async () => {
           await remove(id);
@@ -47,7 +48,7 @@ export default function EditQuestionScreen() {
 
   return (
     <AppScreen>
-      <AppTopBar title="Edit" canBack />
+      <AppTopBar title={t("nav.edit")} canBack />
       <QuestionForm
         mode="edit"
         title={title}
@@ -57,7 +58,7 @@ export default function EditQuestionScreen() {
         onChangeBody={setBody}
         onSubmit={onSubmit}
         onDelete={onDelete}
-        submitLabel="更新"
+        submitLabel={t("button.update")}
       />
     </AppScreen>
   );

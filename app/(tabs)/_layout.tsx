@@ -1,4 +1,5 @@
 import { Tabs } from "expo-router";
+import { t } from "@/locales";
 
 export default function TabsLayout() {
   return (
@@ -8,8 +9,8 @@ export default function TabsLayout() {
         tabBarHideOnKeyboard: true,
       }}
     >
-      <Tabs.Screen name="index" options={{ title: "TOP" }} />
-      <Tabs.Screen name="list" options={{ title: "LIST" }} />
+      <Tabs.Screen name="index" options={{ title: t("nav.top") }} />
+      <Tabs.Screen name="list" options={{ title: t("nav.list") }} />
     </Tabs>
   );
 }

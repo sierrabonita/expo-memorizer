@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { tokens } from "@/lib/theme/tokens";
+import { t } from "@/locales";
 
 export default function TopScreen() {
   const theme = useTheme();
@@ -40,7 +41,7 @@ export default function TopScreen() {
     <SafeAreaView style={styles.safeAreaView} edges={["top", "left", "right"]}>
       <View style={styles.container}>
         <Text variant="titleLarge" style={styles.text}>
-          Title
+          {t("screen.top.title")}
         </Text>
         <Button
           mode="contained"
@@ -50,7 +51,7 @@ export default function TopScreen() {
           contentStyle={styles.buttonContentStyle}
           labelStyle={styles.buttonLabelStyle}
         >
-          START
+          {t("screen.top.start")}
         </Button>
       </View>
     </SafeAreaView>

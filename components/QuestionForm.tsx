@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { tokens } from "@/lib/theme/tokens";
+import { t } from "@/locales";
 
 type Props = {
   mode: "create" | "edit";
@@ -41,7 +42,7 @@ export default function QuestionForm({
     <View style={styles.container}>
       <TextInput
         mode="outlined"
-        label="タイトル"
+        label={t("form.title.label")}
         value={title}
         onChangeText={(v) => {
           onChangeTitle(v);
@@ -51,18 +52,18 @@ export default function QuestionForm({
       />
       <TextInput
         mode="outlined"
-        label="本文"
+        label={t("form.body.label")}
         value={body}
         onChangeText={onChangeBody}
         multiline
         numberOfLines={6}
       />
       <Button mode="contained" onPress={onSubmit} disabled={!canSubmit} loading={!!loading}>
-        {submitLabel ?? (mode === "edit" ? "更新" : "作成")}
+        {submitLabel ?? (mode === "edit" ? t("button.update") : t("button.create"))}
       </Button>
       {mode === "edit" && onDelete && (
         <Button mode="text" onPress={onDelete}>
-          削除
+          {t("button.delete")}
         </Button>
       )}
     </View>

@@ -1,0 +1,60 @@
+{
+  "app": {
+    "name": "本日の確認項目"
+  },
+  "nav": {
+    "top": "トップ",
+    "list": "一覧",
+    "create": "作成",
+    "edit": "編集"
+  },
+  "button": {
+    "create": "作成",
+    "update": "更新",
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "back": "戻る",
+    "retry": "再試行",
+    "ok": "OK"
+  },
+  "toast": {
+    "created": "作成しました。",
+    "updated": "更新しました。",
+    "deleted": "削除しました。",
+    "error": "エラーが発生しました。"
+  },
+  "form": {
+    "title": {
+      "label": "タイトル",
+      "placeholder": "タイトルを入力"
+    },
+    "body": {
+      "label": "内容",
+      "placeholder": "内容を入力（任意）"
+    },
+    "validation": {
+      "required": "{field} は必須です。",
+      "maxLength": "{field} は {max} 文字以内で入力してください。"
+    }
+  },
+  "screen": {
+    "top": {
+      "title": "本日の確認項目",
+      "start": "START"
+    },
+    "list": {
+      "empty": "まだ暗記項目がありません",
+      "item": {
+        "noContent": "（内容なし）"
+      }
+    }
+  },
+  "modal": {
+    "confirmDeleteTitle": "削除確認",
+    "confirmDeleteMessage": "この項目を削除しますか？"
+  },
+  "error": {
+    "dbInitFailed": "DB 初期化に失敗しました。",
+    "notFound": "見つかりませんでした。"
+  }
+}
