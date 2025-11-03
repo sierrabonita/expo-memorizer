@@ -1,0 +1,111 @@
+import { StyleSheet } from "react-native";
+import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import { IconButton, List, MD3Colors } from "react-native-paper";
+import Reanimated, { type SharedValue, useAnimatedStyle } from "react-native-reanimated";
+import { t } from "@/locales";
+
+const styles = StyleSheet.create({
+  rightAction: {
+    width: 50,
+    height: 50,
+    backgroundColor: "green",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  leftAction: {
+    width: 50,
+    height: 50,
+    backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  separator: {
+    width: "100%",
+    borderTopWidth: 1,
+  },
+
+  swipeable: {
+    alignItems: "center",
+  },
+});
+
+type Props = {
+  key: number;
+  id: string;
+  title: string;
+  description: string;
+  leftIcon: string;
+  leftIconColor?: string;
+  leftIconSize?: number;
+  rightIcon: string;
+  rightIconColor?: string;
+  rightIconSize?: number;
+  onPressLeftIcon: () => void;
+  onPressRightIcon: () => void;
+};
+
+const defaultProps = {
+  leftIconColor: MD3Colors.neutral100,
+  leftIconSize: 30,
+  rightIconColor: MD3Colors.neutral100,
+  rightIconSize: 30,
+};
+
+export default function SwipeableRow(props: Props) {
+  const item = { ...defaultProps, ...props };
+  const LeftAction = (_prog: SharedValue<number>, drag: SharedValue<number>) => {
+    const styleAnimation = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateX: drag.value - 50 }],
+      };
+    });
+
+    return (
+      <Reanimated.View style={[styleAnimation, styles.leftAction]}>
+        <IconButton
+          icon={item.leftIcon}
+          iconColor={item.leftIconColor}
+          size={item.leftIconSize}
+          onPress={item.onPressLeftIcon}
+        />
+      </Reanimated.View>
+    );
+  };
+
+  const RightAction = (_prog: SharedValue<number>, drag: SharedValue<number>) => {
+    const styleAnimation = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateX: drag.value + 50 }],
+      };
+    });
+
+    return (
+      <Reanimated.View style={[styleAnimation, styles.rightAction]}>
+        <IconButton
+          icon={item.rightIcon}
+          iconColor={item.rightIconColor}
+          size={item.rightIconSize}
+          onPress={item.onPressRightIcon}
+        />
+      </Reanimated.View>
+    );
+  };
+
+  return (
+    <ReanimatedSwipeable
+      key={item.key}
+      containerStyle={styles.swipeable}
+      friction={2}
+      enableTrackpadTwoFingerGesture
+      rightThreshold={40}
+      renderRightActions={RightAction}
+      renderLeftActions={LeftAction}
+    >
+      <List.Item
+        key={item.key}
+        title={item.title}
+        description={item.description || t("screen.list.item.noContent")}
+      />
+    </ReanimatedSwipeable>
+  );
+}
