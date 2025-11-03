@@ -87,7 +87,7 @@ export default function QuestionListScreen() {
               title={q.prompt}
               description={q.answer || t("screen.list.item.noContent")}
               leftIcon={"trash-can"}
-              rightIcon={""}
+              rightIcon={"cog"}
               onPressLeftIcon={() => onDelete(q.id)}
               onPressRightIcon={() => onEdit(q.id)}
             />
