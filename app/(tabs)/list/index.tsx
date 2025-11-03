@@ -1,6 +1,6 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { FAB, Portal } from "react-native-paper";
 import SwipeableRow from "@/components/SwipeableRow";
@@ -11,6 +11,8 @@ import { tokens } from "@/lib/theme/tokens";
 import { AppScreen } from "@/lib/ui/AppScreen";
 import { AppTopBar } from "@/lib/ui/AppTopBar";
 import { t } from "@/locales";
+
+type CloseRow = () => void;
 
 export default function QuestionListScreen() {
   const remove = useDeleteQuestion();
@@ -54,6 +56,24 @@ export default function QuestionListScreen() {
     [tabBarHeight],
   );
 
+  const closeOpenRowRef = useRef<CloseRow | null>(null);
+
+  const handleWillOpen = useCallback((closeRow: CloseRow) => {
+    // 同じ行なら閉じない（自分で自分を閉じない）
+    if (closeOpenRowRef.current && closeOpenRowRef.current !== closeRow) {
+      closeOpenRowRef.current();
+    }
+    // いま開いた行を閉じるための関数を保存
+    closeOpenRowRef.current = closeRow;
+  }, []);
+
+  const handleDidClose = useCallback((closeRow: CloseRow) => {
+    // 参照しているのが自分ならクリア
+    if (closeOpenRowRef.current === closeRow) {
+      closeOpenRowRef.current = null;
+    }
+  }, []);
+
   const onDelete = (id: number) => {
     if (!id) return;
     Alert.alert(t("modal.confirmDeleteTitle"), t("modal.confirmDeleteMessage"), [
@@ -90,6 +110,8 @@ export default function QuestionListScreen() {
               rightIcon={"cog"}
               onPressLeftIcon={() => onDelete(q.id)}
               onPressRightIcon={() => onEdit(q.id)}
+              onWillOpen={handleWillOpen}
+              onDidClose={handleDidClose}
             />
           ))
         )}

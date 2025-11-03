@@ -1,5 +1,8 @@
+import { useCallback, useRef } from "react";
 import { StyleSheet } from "react-native";
-import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import ReanimatedSwipeable, {
+  type SwipeableMethods,
+} from "react-native-gesture-handler/ReanimatedSwipeable";
 import { IconButton, List, MD3Colors } from "react-native-paper";
 import Reanimated, { type SharedValue, useAnimatedStyle } from "react-native-reanimated";
 import { t } from "@/locales";
@@ -42,6 +45,8 @@ type Props = {
   rightIconSize?: number;
   onPressLeftIcon: () => void;
   onPressRightIcon: () => void;
+  onWillOpen?: (closeRow: () => void) => void;
+  onDidClose?: (closeRow: () => void) => void;
 };
 
 const defaultProps = {
@@ -53,6 +58,12 @@ const defaultProps = {
 
 export default function SwipeableRow(props: Props) {
   const item = { ...defaultProps, ...props };
+  const swipeRef = useRef<SwipeableMethods>(null);
+
+  const closeSelf = useCallback(() => {
+    swipeRef.current?.close();
+  }, []);
+
   const LeftAction = (_prog: SharedValue<number>, drag: SharedValue<number>) => {
     const styleAnimation = useAnimatedStyle(() => {
       return {
@@ -66,7 +77,10 @@ export default function SwipeableRow(props: Props) {
           icon={item.leftIcon}
           iconColor={item.leftIconColor}
           size={item.leftIconSize}
-          onPress={item.onPressLeftIcon}
+          onPress={() => {
+            item.onPressLeftIcon();
+            closeSelf();
+          }}
         />
       </Reanimated.View>
     );
@@ -85,7 +99,10 @@ export default function SwipeableRow(props: Props) {
           icon={item.rightIcon}
           iconColor={item.rightIconColor}
           size={item.rightIconSize}
-          onPress={item.onPressRightIcon}
+          onPress={() => {
+            item.onPressRightIcon;
+            closeSelf();
+          }}
         />
       </Reanimated.View>
     );
@@ -94,12 +111,15 @@ export default function SwipeableRow(props: Props) {
   return (
     <ReanimatedSwipeable
       key={item.key}
+      ref={swipeRef}
       containerStyle={styles.swipeable}
       friction={2}
       enableTrackpadTwoFingerGesture
       rightThreshold={40}
       renderRightActions={RightAction}
       renderLeftActions={LeftAction}
+      onSwipeableWillOpen={() => item.onWillOpen?.(closeSelf)}
+      onSwipeableClose={() => item.onDidClose?.(closeSelf)}
     >
       <List.Item
         key={item.key}
