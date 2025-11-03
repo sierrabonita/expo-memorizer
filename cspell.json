@@ -8,8 +8,10 @@
     "appbar",
     "autoincrement",
     "expomemorizer",
-    "pressable",
     "nativewind",
+    "pressable",
+    "swipeable",
+    "trackpad",
     "worklets"
   ],
   "import": []
