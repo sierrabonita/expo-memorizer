@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -17,16 +18,18 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView>
       <PaperProvider theme={theme}>
-        <DBProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              // 画面背景のちらつき防止
-              contentStyle: { backgroundColor: theme.colors.background },
-            }}
-          />
-          <StatusBar style={isDark ? "light" : "dark"} />
-        </DBProvider>
+        <BottomSheetModalProvider>
+          <DBProvider>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                // 画面背景のちらつき防止
+                contentStyle: { backgroundColor: theme.colors.background },
+              }}
+            />
+            <StatusBar style={isDark ? "light" : "dark"} />
+          </DBProvider>
+        </BottomSheetModalProvider>
       </PaperProvider>
     </GestureHandlerRootView>
   );

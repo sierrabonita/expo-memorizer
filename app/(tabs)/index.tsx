@@ -1,12 +1,16 @@
-import { useMemo } from "react";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import TodayReviewSheet from "@/components/TodayReviewSheet";
 import { tokens } from "@/lib/theme/tokens";
+import BottomSheet from "@/lib/ui/BottomSheet";
 import { t } from "@/locales";
 
 export default function TopScreen() {
   const theme = useTheme();
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const styles = useMemo(
     () =>
@@ -37,6 +41,14 @@ export default function TopScreen() {
     [theme],
   );
 
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleOnChange = useCallback(() => {
+    console.log("handleOnChange");
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeAreaView} edges={["top", "left", "right"]}>
       <View style={styles.container}>
@@ -46,13 +58,16 @@ export default function TopScreen() {
         <Button
           mode="contained"
           buttonColor={theme.colors.primary}
-          onPress={() => console.log("Pressed")}
+          onPress={handlePresentModalPress}
           style={styles.buttonStyle}
           contentStyle={styles.buttonContentStyle}
           labelStyle={styles.buttonLabelStyle}
         >
           {t("screen.top.start")}
         </Button>
+        <BottomSheet ref={bottomSheetModalRef} onChange={handleOnChange}>
+          <TodayReviewSheet />
+        </BottomSheet>
       </View>
     </SafeAreaView>
   );
