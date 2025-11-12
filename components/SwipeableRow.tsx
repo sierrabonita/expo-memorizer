@@ -110,7 +110,6 @@ export default function SwipeableRow(props: Props) {
 
   return (
     <ReanimatedSwipeable
-      key={item.key}
       ref={swipeRef}
       containerStyle={styles.swipeable}
       friction={2}
@@ -122,7 +121,6 @@ export default function SwipeableRow(props: Props) {
       onSwipeableClose={() => item.onDidClose?.(closeSelf)}
     >
       <List.Item
-        key={item.key}
         title={item.title}
         description={item.description || t("screen.list.item.noContent")}
       />
