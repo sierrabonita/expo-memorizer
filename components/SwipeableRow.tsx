@@ -100,7 +100,7 @@ export default function SwipeableRow(props: Props) {
           iconColor={item.rightIconColor}
           size={item.rightIconSize}
           onPress={() => {
-            item.onPressRightIcon;
+            item.onPressRightIcon();
             closeSelf();
           }}
         />
